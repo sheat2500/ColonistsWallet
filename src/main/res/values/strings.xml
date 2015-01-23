@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Colonists Wallet</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="slidingmenu_items">
+        <item>DashBoard</item>
+        <item>Record</item>
+    </string-array>
+
+</resources>
