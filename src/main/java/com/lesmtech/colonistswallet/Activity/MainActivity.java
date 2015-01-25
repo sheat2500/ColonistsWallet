@@ -1,29 +1,36 @@
 package com.lesmtech.colonistswallet.Activity;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Outline;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.ViewOutlineProvider;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lesmtech.colonistswallet.R;
 
-import java.util.ArrayList;
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.charts.ValueLineChart;
+import org.eazegraph.lib.models.PieModel;
+import org.eazegraph.lib.models.ValueLinePoint;
+import org.eazegraph.lib.models.ValueLineSeries;
 
 public class MainActivity extends FragmentActivity {
 
@@ -43,6 +50,8 @@ public class MainActivity extends FragmentActivity {
 
     DashBoardFragment mDashBoardFragment;
     RecordFragment mRecordFragment;
+
+    SlidingMenu mSlidingMenu;
 
 
     private final int DASHBOARDFRAGMENT = 0;
@@ -81,7 +90,12 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void initNormalView() {
+
+        // Initial ActionBar with
         mActionBar = getActionBar();
+        mActionBar.setHomeButtonEnabled(true);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mFrameLayout = (FrameLayout) findViewById(R.id.main_content);
         fragmentManager = getSupportFragmentManager();
@@ -100,6 +114,12 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mSlidingMenu.showMenu();
+    }
+
     private void initWelcomeView() {
         // Hide actionBar
         mActionBar.hide();
@@ -108,29 +128,42 @@ public class MainActivity extends FragmentActivity {
 
     private void initViewStatu() {
         mViewPager.setVisibility(View.INVISIBLE);
-        ((LinearLayout) mViewPager.getParent()).removeView(mViewPager);
-        mFrameLayout.setVisibility(View.VISIBLE);
+        ((FrameLayout) mViewPager.getParent()).removeView(mViewPager);
 
-        SlidingMenu menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
-        //menu.setShadowDrawable(R.drawable.shadow);
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        menu.setFadeDegree(0.35f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
-        menu.setMenu(R.layout.slidingmenu);
-
-        listView_menu = (ListView) findViewById(R.id.list_item);
-        mString = getResources().getStringArray(R.array.slidingmenu_items);
-        mArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_2, mString);
-
-        listView_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // clip the float button
+        View addButton = findViewById(R.id.add_button);
+        addButton.setClipToOutline(true);
+        addButton.setOutlineProvider(new ViewOutlineProvider() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), position, Toast.LENGTH_SHORT).show();
+            public void getOutline(View view, Outline outline) {
+                int diameter = getResources().getDimensionPixelSize(R.dimen.round_button_diameter);
+                outline.setOval(0, 0, diameter, diameter);
             }
         });
+
+        // Initial mSlidingMenu
+        mSlidingMenu = new SlidingMenu(this);
+        mSlidingMenu.setMode(SlidingMenu.LEFT);
+        mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        mSlidingMenu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
+        //menu.setShadowDrawable(R.drawable.shadow);
+        mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        mSlidingMenu.setFadeDegree(0.35f);
+        mSlidingMenu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
+        mSlidingMenu.setMenu(R.layout.slidingmenu);
+        mSlidingMenu.showMenu();
+
+
+//        listView_menu = (ListView) findViewById(R.id.list_item);
+//        mString = getResources().getStringArray(R.array.slidingmenu_items);
+//        mArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_2, mString);
+
+//        listView_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getApplicationContext(), position, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
     }
@@ -148,27 +181,57 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            /**
+             *  if(Login == true){
+             *      SYNC Server Data
+             *  }
+             *  else
+             *      Pop up LogIn Activity
+             */
+            case R.id.refresh:
+                boolean login = ColonistsWalletApplication.getInstance().getLogIn();
+                if (login == false) {
+                    Intent account = new Intent(this, AccountActivity.class);
+                    startActivity(account);
+                } else {
+                    // Request Data From Server
+
+
+                }
+                break;
+            // Add any item you wanted, pop up a new want item activity
+            case R.id.want:
+                Intent want = new Intent(this, WantActivity.class);
+                startActivity(want);
+                break;
+            // Add a bill, pop up a new purchase activity
+            case R.id.add:
+                Intent event = new Intent(this, EventActivity.class);
+                startActivity(event);
+                break;
+            case android.R.id.home:
+                mSlidingMenu.showMenu();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     /**
      * A placeholder fragment containing a simple view.
@@ -212,6 +275,8 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+
+    // DashBoardFragment!
     public static class DashBoardFragment extends Fragment {
         public DashBoardFragment() {
         }
@@ -220,6 +285,43 @@ public class MainActivity extends FragmentActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+            getActivity().getActionBar().setTitle("DashBoard");
+
+            // PieChart
+            PieChart mPieChart = (PieChart) v.findViewById(R.id.piechart);
+
+            // LineChart
+            ValueLineChart mCubicValueLineChart = (ValueLineChart) v.findViewById(R.id.cubiclinechart);
+
+            ValueLineSeries series = new ValueLineSeries();
+            series.setColor(0xFF56B7F1);
+
+            series.addPoint(new ValueLinePoint("Jan", 2.4f));
+            series.addPoint(new ValueLinePoint("Feb", 3.4f));
+            series.addPoint(new ValueLinePoint("Mar", .4f));
+            series.addPoint(new ValueLinePoint("Apr", 1.2f));
+            series.addPoint(new ValueLinePoint("Mai", 2.6f));
+            series.addPoint(new ValueLinePoint("Jun", 1.0f));
+            series.addPoint(new ValueLinePoint("Jul", 3.5f));
+            series.addPoint(new ValueLinePoint("Aug", 2.4f));
+            series.addPoint(new ValueLinePoint("Sep", 2.4f));
+            series.addPoint(new ValueLinePoint("Oct", 3.4f));
+            series.addPoint(new ValueLinePoint("Nov", .4f));
+            series.addPoint(new ValueLinePoint("Dec", 1.3f));
+
+            mCubicValueLineChart.addSeries(series);
+            mCubicValueLineChart.startAnimation();
+
+            // Data render PieChart
+
+            mPieChart.addPieSlice(new PieModel("Freetime", 15, Color.parseColor("#FE6DA8")));
+            mPieChart.addPieSlice(new PieModel("Sleep", 25, Color.parseColor("#56B7F1")));
+            mPieChart.addPieSlice(new PieModel("Work", 35, Color.parseColor("#CDA67F")));
+            mPieChart.addPieSlice(new PieModel("Eating", 9, Color.parseColor("#FED70E")));
+            mPieChart.startAnimation();
+
+
             return v;
         }
     }
@@ -300,6 +402,11 @@ public class MainActivity extends FragmentActivity {
         public int getCount() {
             return NUM_PAGES;
         }
+    }
+
+    // For Testing
+    public void displayToast(String content) {
+        Toast.makeText(getApplicationContext(), content, Toast.LENGTH_SHORT).show();
     }
 
 }

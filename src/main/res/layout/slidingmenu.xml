@@ -3,12 +3,25 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light">
+    android:background="@android:color/white">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@id/list_item">
-    </ListView>
+    <ImageView
+        android:layout_width="304dp"
+        android:layout_height="172dp"
+        android:background="@drawable/profile" />
+
+    <Button
+        android:layout_height="25dp"
+        android:layout_width="93dp"
+        android:background="@drawable/inbox"
+        android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
+        android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
+
+    <Button
+        android:layout_height="25dp"
+        android:layout_width="93dp"
+        android:background="@drawable/inbox"
+        android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
+        android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
 
 </LinearLayout>

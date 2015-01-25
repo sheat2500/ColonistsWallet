@@ -1,9 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:visibility="visible">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
@@ -11,26 +10,31 @@
         android:layout_height="match_parent"
         android:background="@android:color/black" />
 
-    <FrameLayout
-        android:id="@+id/main_content"
+    <fragment
+        class="com.lesmtech.colonistswallet.Activity.MainActivity$DashBoardFragment"
+        android:id="@+id/dashboardfragment"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:visibility="invisible">
+        android:layout_height="match_parent" />
 
-        <fragment
-            class="com.lesmtech.colonistswallet.Activity.MainActivity$DashBoardFragment"
-            android:id="@+id/dashboardfragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <fragment
+        class="com.lesmtech.colonistswallet.Activity.MainActivity$RecordFragment"
+        android:id="@+id/recordfragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <fragment
-            class="com.lesmtech.colonistswallet.Activity.MainActivity$RecordFragment"
-            android:id="@+id/recordfragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <ImageButton
+        android:id="@+id/add_button"
+        android:layout_width="@dimen/round_button_diameter"
+        android:layout_height="@dimen/round_button_diameter"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="@dimen/add_button_margin"
+        android:layout_marginEnd="@dimen/add_button_margin"
+        android:src="@android:drawable/ic_input_add"
 
+        android:background="@drawable/oval_ripple"
 
-    </FrameLayout>
+        android:tint="@android:color/white"
+        android:elevation="@dimen/elevation_low"
+        android:stateListAnimator="@animator/button_elevation"/>
 
-</LinearLayout>
+</FrameLayout>

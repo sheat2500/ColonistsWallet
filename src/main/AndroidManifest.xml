@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lesmtech.colonistswallet" >
+    package="com.lesmtech.colonistswallet">
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/MyTheme"
+        android:name=".Activity.ColonistsWalletApplication">
         <activity
             android:name=".Activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Material.Light">
+            android:theme="@style/MyTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Activity.AccountActivity"></activity>
+        <activity android:name=".Activity.EventActivity"></activity>
+        <activity android:name=".Activity.WantActivity"></activity>
+
     </application>
 
 </manifest>
