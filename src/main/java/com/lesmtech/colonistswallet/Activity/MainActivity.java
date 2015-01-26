@@ -414,6 +414,20 @@ public class MainActivity extends FragmentActivity {
         Toast.makeText(getApplicationContext(), content, Toast.LENGTH_SHORT).show();
     }
 
+    // SlidingMenu Button Onclick
+    public void showDashBoard(View v){
+        showThisFragment(DASHBOARDFRAGMENT);
+        mActionBar.setTitle("DashBoard");
+        mSlidingMenu.toggle();
+    }
+
+    public void showRecords(View v){
+        showThisFragment(RECORDFRAGMENT);
+        mActionBar.setTitle("Records");
+        mSlidingMenu.toggle();
+    }
+
+    // Add new onclick methods if new item added in the sliding menu
 }
 
 

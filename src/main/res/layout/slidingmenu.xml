@@ -5,16 +5,37 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <ImageView
+    <RelativeLayout
         android:layout_width="304dp"
         android:layout_height="172dp"
-        android:background="@drawable/profile" />
+        android:background="@drawable/profile">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="67dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/selfie"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/username"
+            android:textColor="@color/icons"
+            android:text="sheat2500@gmail.com"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:textSize="16dp"
+            android:layout_marginLeft="15dp" />
+
+    </RelativeLayout>
 
     <Button
         android:layout_height="25dp"
         android:layout_width="93dp"
         android:background="@drawable/inbox"
         android:id="@+id/dashboard"
+        android:onClick="showDashBoard"
         android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
         android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
 
@@ -22,6 +43,7 @@
         android:layout_height="25dp"
         android:layout_width="93dp"
         android:id="@+id/records"
+        android:onClick="showRecords"
         android:background="@drawable/inbox"
         android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
         android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
