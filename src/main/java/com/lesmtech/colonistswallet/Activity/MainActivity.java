@@ -68,6 +68,10 @@ public class MainActivity extends FragmentActivity {
     String[] mString;
 
 
+    // RecordFragment View
+    ListView recordfragment_listview;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,7 +214,7 @@ public class MainActivity extends FragmentActivity {
                     Intent account = new Intent(this, AccountActivity.class);
                     startActivity(account);
                 } else {
-                    // Request Data From Server
+                    // Refresh Data From Server
 
 
                 }
@@ -288,8 +292,6 @@ public class MainActivity extends FragmentActivity {
 
             getActivity().getActionBar().setTitle("DashBoard");
 
-            // PieChart
-            PieChart mPieChart = (PieChart) v.findViewById(R.id.piechart);
 
             // LineChart
             ValueLineChart mCubicValueLineChart = (ValueLineChart) v.findViewById(R.id.cubiclinechart);
@@ -313,15 +315,6 @@ public class MainActivity extends FragmentActivity {
             mCubicValueLineChart.addSeries(series);
             mCubicValueLineChart.startAnimation();
 
-            // Data render PieChart
-
-            mPieChart.addPieSlice(new PieModel("Freetime", 15, Color.parseColor("#FE6DA8")));
-            mPieChart.addPieSlice(new PieModel("Sleep", 25, Color.parseColor("#56B7F1")));
-            mPieChart.addPieSlice(new PieModel("Work", 35, Color.parseColor("#CDA67F")));
-            mPieChart.addPieSlice(new PieModel("Eating", 9, Color.parseColor("#FED70E")));
-            mPieChart.startAnimation();
-
-
             return v;
         }
     }
@@ -334,6 +327,18 @@ public class MainActivity extends FragmentActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_record, container, false);
+
+            // PieChart
+            PieChart mPieChart = (PieChart) v.findViewById(R.id.piechart);
+
+            // Data render PieChart
+
+            mPieChart.addPieSlice(new PieModel("Freetime", 15, Color.parseColor("#FE6DA8")));
+            mPieChart.addPieSlice(new PieModel("Sleep", 25, Color.parseColor("#56B7F1")));
+            mPieChart.addPieSlice(new PieModel("Work", 35, Color.parseColor("#CDA67F")));
+            mPieChart.addPieSlice(new PieModel("Eating", 9, Color.parseColor("#FED70E")));
+            mPieChart.startAnimation();
+
             return v;
         }
     }

@@ -14,12 +14,30 @@
         android:layout_height="25dp"
         android:layout_width="93dp"
         android:background="@drawable/inbox"
+        android:id="@+id/dashboard"
         android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
         android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
 
     <Button
         android:layout_height="25dp"
         android:layout_width="93dp"
+        android:id="@+id/records"
+        android:background="@drawable/inbox"
+        android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
+        android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
+
+    <Button
+        android:layout_height="25dp"
+        android:layout_width="93dp"
+        android:id="@+id/wantedlist"
+        android:background="@drawable/inbox"
+        android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
+        android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
+
+    <Button
+        android:layout_height="25dp"
+        android:layout_width="93dp"
+        android:id="@+id/setting"
         android:background="@drawable/inbox"
         android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
         android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
