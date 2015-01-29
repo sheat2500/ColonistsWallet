@@ -10,31 +10,37 @@
         android:layout_height="match_parent"
         android:background="@android:color/black" />
 
-    <fragment
-        class="com.lesmtech.colonistswallet.Activity.MainActivity$DashBoardFragment"
-        android:id="@+id/dashboardfragment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/fragments_layout"
+        android:visibility="invisible"
+        android:orientation="vertical">
 
-    <fragment
-        class="com.lesmtech.colonistswallet.Activity.MainActivity$RecordFragment"
-        android:id="@+id/recordfragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <fragment
+            class="com.lesmtech.colonistswallet.Activity.MainActivity$DashBoardFragment"
+            android:id="@+id/dashboardfragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <ImageButton
-        android:id="@+id/add_button"
-        android:layout_width="@dimen/round_button_diameter"
-        android:layout_height="@dimen/round_button_diameter"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="@dimen/add_button_margin"
-        android:layout_marginEnd="@dimen/add_button_margin"
-        android:src="@android:drawable/ic_input_add"
+        <fragment
+            class="com.lesmtech.colonistswallet.Activity.MainActivity$RecordFragment"
+            android:id="@+id/recordfragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        android:background="@drawable/oval_ripple"
-
-        android:tint="@android:color/white"
-        android:elevation="@dimen/elevation_low"
-        android:stateListAnimator="@animator/button_elevation"/>
-
+        <ImageButton
+            android:id="@+id/add_button"
+            android:layout_width="@dimen/round_button_diameter"
+            android:layout_height="@dimen/round_button_diameter"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/add_button_margin"
+            android:layout_marginEnd="@dimen/add_button_margin"
+            android:src="@android:drawable/ic_input_add"
+            android:tint="@android:color/white"
+            android:background="@drawable/oval_ripple"
+            android:elevation="@dimen/elevation_low"
+            android:stateListAnimator="@animator/button_elevation" />
+    </RelativeLayout>
 </FrameLayout>

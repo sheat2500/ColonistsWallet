@@ -6,16 +6,16 @@
     android:background="@android:color/white">
 
     <RelativeLayout
-        android:layout_width="304dp"
+        android:layout_width="match_parent"
         android:layout_height="172dp"
         android:background="@drawable/profile">
 
         <ImageView
             android:layout_width="70dp"
-            android:layout_height="67dp"
+            android:layout_height="70dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:src="@drawable/selfie"/>
+            android:src="@drawable/selfie" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,38 +30,150 @@
 
     </RelativeLayout>
 
-    <Button
-        android:layout_height="25dp"
-        android:layout_width="93dp"
-        android:background="@drawable/inbox"
-        android:id="@+id/dashboard"
+    <LinearLayout
+        android:layout_height="37dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="23dp"
+        android:clickable="true"
         android:onClick="showDashBoard"
-        android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
-        android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
+        android:background="@drawable/slidingmenu_button_ripple">
 
-    <Button
-        android:layout_height="25dp"
-        android:layout_width="93dp"
-        android:id="@+id/records"
+        <ImageView
+            android:src="@drawable/ic_launcher"
+            android:layout_marginLeft="19dp"
+            android:layout_height="32dp"
+            android:layout_width="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:text="DashBoard"
+            android:textColor="@color/primary_text"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="37dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="30dp"
+        android:clickable="true"
         android:onClick="showRecords"
-        android:background="@drawable/inbox"
-        android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
-        android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
+        android:background="@drawable/slidingmenu_button_ripple">
 
-    <Button
-        android:layout_height="25dp"
-        android:layout_width="93dp"
-        android:id="@+id/wantedlist"
-        android:background="@drawable/inbox"
-        android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
-        android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
+        <ImageView
+            android:src="@drawable/ic_launcher"
+            android:layout_marginLeft="19dp"
+            android:layout_height="32dp"
+            android:layout_width="32dp" />
 
-    <Button
-        android:layout_height="25dp"
-        android:layout_width="93dp"
-        android:id="@+id/setting"
-        android:background="@drawable/inbox"
-        android:layout_marginLeft="@dimen/slidingmenu_button_margin_left"
-        android:layout_marginTop="@dimen/slidingmenu_button_margin_top" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:text="Record"
+            android:textColor="@color/primary_text"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_height="37dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:onClick="showRecords"
+        android:background="@drawable/slidingmenu_button_ripple">
+
+        <ImageView
+            android:src="@drawable/ic_launcher"
+            android:layout_marginLeft="19dp"
+            android:layout_height="32dp"
+            android:layout_width="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:text="Wanted List"
+            android:textColor="@color/primary_text"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="37dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:onClick="showRecords"
+        android:background="@drawable/slidingmenu_button_ripple">
+
+        <ImageView
+            android:src="@drawable/ic_launcher"
+            android:layout_marginLeft="19dp"
+            android:layout_height="32dp"
+            android:layout_width="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:text="Setting"
+            android:textColor="@color/primary_text"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/divider"
+        android:layout_marginTop="22dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"></View>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:background="@drawable/slidingmenu_button_ripple">
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="0dp"
+            android:src="@color/primary_light"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:onClick="showRecords"
+            android:layout_weight="1"
+            android:background="@color/primary_light"
+            android:alpha="0.3"
+            android:text="LogIn"
+            android:layout_gravity="center_vertical" />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:onClick="showRecords"
+            android:layout_weight="1"
+            android:background="@color/primary_light"
+            android:layout_gravity="center_vertical"
+            android:alpha="0.3"
+            android:text="Register" />
+
+    </LinearLayout>
 
 </LinearLayout>

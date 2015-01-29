@@ -20,7 +20,9 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -47,6 +49,7 @@ public class MainActivity extends FragmentActivity {
 
     // Main Content Container
     FrameLayout mFrameLayout;
+    RelativeLayout fragments_layout;
 
     DashBoardFragment mDashBoardFragment;
     RecordFragment mRecordFragment;
@@ -89,6 +92,8 @@ public class MainActivity extends FragmentActivity {
             mViewPager.setAdapter(mPagerAdapter);
         } else {
             initViewStatu();
+            // Let inside fragments visible
+            fragments_layout.setVisibility(View.VISIBLE);
         }
         Toast.makeText(getApplicationContext(), String.valueOf(firstOpen), Toast.LENGTH_SHORT).show();
     }
@@ -100,13 +105,15 @@ public class MainActivity extends FragmentActivity {
         mActionBar.setHomeButtonEnabled(true);
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
+        // first time, initial invisible layout
+        fragments_layout = (RelativeLayout)findViewById(R.id.fragments_layout);
+
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mFrameLayout = (FrameLayout) findViewById(R.id.main_content);
         fragmentManager = getSupportFragmentManager();
         mDashBoardFragment = (DashBoardFragment) fragmentManager.findFragmentById(R.id.dashboardfragment);
         mRecordFragment = (RecordFragment) fragmentManager.findFragmentById(R.id.recordfragment);
         Fragments = new Fragment[]{mDashBoardFragment, mRecordFragment};
-        showThisFragment(DASHBOARDFRAGMENT);
     }
 
     private void showThisFragment(int fragment) {
@@ -115,7 +122,6 @@ public class MainActivity extends FragmentActivity {
             fragmentManager.beginTransaction().hide(Fragments[i]).commit();
         }
         fragmentManager.beginTransaction().show(Fragments[fragment]).commit();
-
     }
 
     @Override
@@ -133,6 +139,7 @@ public class MainActivity extends FragmentActivity {
     private void initViewStatu() {
         mViewPager.setVisibility(View.INVISIBLE);
         ((FrameLayout) mViewPager.getParent()).removeView(mViewPager);
+        showThisFragment(DASHBOARDFRAGMENT);
 
         // clip the float button
         View addButton = findViewById(R.id.add_button);
@@ -415,13 +422,13 @@ public class MainActivity extends FragmentActivity {
     }
 
     // SlidingMenu Button Onclick
-    public void showDashBoard(View v){
+    public void showDashBoard(View v) {
         showThisFragment(DASHBOARDFRAGMENT);
         mActionBar.setTitle("DashBoard");
         mSlidingMenu.toggle();
     }
 
-    public void showRecords(View v){
+    public void showRecords(View v) {
         showThisFragment(RECORDFRAGMENT);
         mActionBar.setTitle("Records");
         mSlidingMenu.toggle();
