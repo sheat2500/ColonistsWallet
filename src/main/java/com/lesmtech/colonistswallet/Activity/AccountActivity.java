@@ -200,20 +200,41 @@ public class AccountActivity extends FragmentActivity {
         mParseUser.setPassword(mPassword_Register.getText().toString());
         mParseUser.setEmail(mEmail_Register.getText().toString());
         mParseUser.signUpInBackground(new SignUpCallback() {
+
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     displayToast("Success to Register");
-                    Intent intent = new Intent();
-                    setResult(RESULTCODE, intent);
-                    finish();
+                    //After register, automatically sing in and back to MainActivity.class
+                    ParseUser mParseUser = new ParseUser();
+                    mParseUser.logInInBackground(mUsername_Register.getText().toString(), mPassword_Register.getText().toString(), new LogInCallback() {
+                        @Override
+                        public void done(ParseUser parseUser, ParseException e) {
+                            displayToast("Success to Log In");
+                            Intent intent = new Intent();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("username", parseUser.getUsername());
+                            bundle.putString("email", parseUser.getEmail());
+                            // !!Upload photo_lite
+                            
+
+
+
+
+                            intent.putExtra("user", bundle);
+                            setResult(RESULTCODE, intent);
+                            finish();
+                        }
+                    });
+
                 } else {
                     displayToast("Fail to Register");
-
-
+                    displayToast(e.getMessage());
                 }
             }
         });
+
+
     }
 
     // For Testing
