@@ -1,10 +1,15 @@
 package com.lesmtech.colonistswallet.Activity;
 
 import android.app.ActionBar;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Outline;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -36,6 +41,11 @@ import org.eazegraph.lib.models.PieModel;
 import org.eazegraph.lib.models.ValueLinePoint;
 import org.eazegraph.lib.models.ValueLineSeries;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class MainActivity extends FragmentActivity {
 
 
@@ -46,6 +56,9 @@ public class MainActivity extends FragmentActivity {
     String email = null;
     Long login_time = null;
     String photo_lite_url;
+
+    // ProgressDialog
+    ProgressDialog mDialog;
 
     private final int NUM_PAGES = 3;
 
@@ -69,6 +82,7 @@ public class MainActivity extends FragmentActivity {
     Button btn_logIn;
     Button btn_register;
     Button btn_logout;
+    Drawable mPhoto_lite;
 
 
     // Sign Up from AccountActivity
@@ -187,19 +201,18 @@ public class MainActivity extends FragmentActivity {
 
         boolean exist = user_preference.contains("username");
 
-        if(exist){
+        if (exist) {
             login_time = user_preference.getLong("login_time", 0);
 
             // 30 second, expire
             boolean expire = System.currentTimeMillis() - login_time > 30000;
-            if(expire){
+            if (expire) {
                 // exist but expire
                 preference_editor = user_preference.edit();
                 preference_editor.remove("user");
                 preference_editor.commit();
                 displayToast("Exist but Expire");
-            }
-            else{
+            } else {
                 username = user_preference.getString("username", null);
                 email = user_preference.getString("email", null);
                 photo_lite_url = user_preference.getString("photo_lite_url", null);
@@ -535,7 +548,6 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-
     // 1. After Log In
     // 2. Open the application
     public void renderViewAfterLogIn() {
@@ -555,13 +567,50 @@ public class MainActivity extends FragmentActivity {
                 photo_lite
          */
 
-        ((TextView) findViewById(R.id.username)).setText("Hello," + username);
-
+        ((TextView) findViewById(R.id.username)).setText("Hello, " + username);
 
         // The Image should be download from server side
+        new DownloadImagesTask().execute(photo_lite_url);
 
-        findViewById(R.id.photo_lite).setBackground(getResources().getDrawable(R.color.primary_light));
+    }
 
+    public class DownloadImagesTask extends AsyncTask<String, Void, Drawable> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = new ProgressDialog(MainActivity.this);
+            mDialog.setMessage("Loading Image ....");
+            mDialog.show();
+        }
+
+        @Override
+        protected Drawable doInBackground(String... params) {
+
+            Drawable drawable = null;
+
+            try {
+                URL url = new URL(params[0]);
+                InputStream is = url.openConnection().getInputStream();
+                drawable = Drawable.createFromStream(is, "mPhoto_lite");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return drawable;
+        }
+
+        @Override
+        protected void onPostExecute(Drawable drawable) {
+            super.onPostExecute(drawable);
+            if (drawable != null) {
+                ((ImageView) findViewById(R.id.photo_lite)).setImageDrawable(drawable);
+            } else {
+                ((ImageView) findViewById(R.id.photo_lite)).setImageDrawable(getResources().getDrawable(R.drawable.selfie));
+            }
+            mDialog.dismiss();
+        }
     }
 }
 
