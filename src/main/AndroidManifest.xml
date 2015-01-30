@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lesmtech.colonistswallet">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -18,7 +21,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity.AccountActivity"></activity>
+        <activity
+            android:name=".Activity.AccountActivity"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar.Fullscreen"
+            android:label="LogIn"></activity>
         <activity android:name=".Activity.EventActivity"></activity>
         <activity android:name=".Activity.WantActivity"></activity>
 

@@ -11,6 +11,7 @@
         android:background="@drawable/profile">
 
         <ImageView
+            android:id="@+id/photo_lite"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginLeft="15dp"
@@ -22,7 +23,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/username"
             android:textColor="@color/icons"
-            android:text="sheat2500@gmail.com"
+            android:text=""
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="15dp"
             android:textSize="16dp"
@@ -139,41 +140,70 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"></View>
 
-
-    <LinearLayout
+    <RelativeLayout
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:background="@drawable/slidingmenu_button_ripple">
+        android:layout_gravity="center_vertical"
+        android:clickable="true">
 
-        <Button
-            android:id="@+id/login"
-            android:layout_width="0dp"
-            android:src="@color/primary_light"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:onClick="showRecords"
-            android:layout_weight="1"
-            android:background="@color/primary_light"
-            android:alpha="0.3"
-            android:text="LogIn"
-            android:layout_gravity="center_vertical" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:background="@drawable/slidingmenu_button_ripple">
 
-        <Button
-            android:id="@+id/register"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:onClick="showRecords"
-            android:layout_weight="1"
-            android:background="@color/primary_light"
-            android:layout_gravity="center_vertical"
-            android:alpha="0.3"
-            android:text="Register" />
+            <Button
+                android:id="@+id/login"
+                android:layout_width="0dp"
+                android:src="@color/primary_light"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:onClick="showLogInFragment"
+                android:layout_weight="1"
+                android:background="@color/primary_light"
+                android:alpha="0.3"
+                android:text="LogIn"
+                android:layout_gravity="center_vertical" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/register"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:onClick="showRegisterFragment"
+                android:layout_weight="1"
+                android:background="@color/primary_light"
+                android:layout_gravity="center_vertical"
+                android:alpha="0.3"
+                android:text="Register" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical">
+
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:onClick="showLogOutDialog"
+                android:visibility="invisible"
+                android:background="@color/primary_light"
+                android:alpha="0.3"
+                android:text="Logout" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

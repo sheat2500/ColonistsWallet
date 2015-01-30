@@ -19,10 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -36,6 +38,14 @@ import org.eazegraph.lib.models.ValueLineSeries;
 
 public class MainActivity extends FragmentActivity {
 
+
+    // User Preference
+    SharedPreferences user_preference;
+    SharedPreferences.Editor preference_editor;
+    String username = null;
+    String email = null;
+    Long login_time = null;
+    String photo_lite_url;
 
     private final int NUM_PAGES = 3;
 
@@ -54,8 +64,15 @@ public class MainActivity extends FragmentActivity {
     DashBoardFragment mDashBoardFragment;
     RecordFragment mRecordFragment;
 
+    // SlidingMenu & Buttons in that
     SlidingMenu mSlidingMenu;
+    Button btn_logIn;
+    Button btn_register;
+    Button btn_logout;
 
+
+    // Sign Up from AccountActivity
+    final int REQUESTCODE = 1;
 
     private final int DASHBOARDFRAGMENT = 0;
     private final int RECORDFRAGMENT = 1;
@@ -73,7 +90,6 @@ public class MainActivity extends FragmentActivity {
 
     // RecordFragment View
     ListView recordfragment_listview;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +122,7 @@ public class MainActivity extends FragmentActivity {
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
         // first time, initial invisible layout
-        fragments_layout = (RelativeLayout)findViewById(R.id.fragments_layout);
+        fragments_layout = (RelativeLayout) findViewById(R.id.fragments_layout);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mFrameLayout = (FrameLayout) findViewById(R.id.main_content);
@@ -163,6 +179,34 @@ public class MainActivity extends FragmentActivity {
         mSlidingMenu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
         mSlidingMenu.setMenu(R.layout.slidingmenu);
         mSlidingMenu.showMenu();
+
+
+        // Get user preference to validate cookie, expire in 24 hours
+        user_preference = getSharedPreferences("user", MODE_PRIVATE);
+
+
+        boolean exist = user_preference.contains("username");
+
+        if(exist){
+            login_time = user_preference.getLong("login_time", 0);
+
+            // 30 second, expire
+            boolean expire = System.currentTimeMillis() - login_time > 30000;
+            if(expire){
+                // exist but expire
+                preference_editor = user_preference.edit();
+                preference_editor.remove("user");
+                preference_editor.commit();
+                displayToast("Exist but Expire");
+            }
+            else{
+                username = user_preference.getString("username", null);
+                email = user_preference.getString("email", null);
+                photo_lite_url = user_preference.getString("photo_lite_url", null);
+                renderViewAfterLogIn();
+                displayToast("Exist and Valid");
+            }
+        }
 
 
 //        listView_menu = (ListView) findViewById(R.id.list_item);
@@ -435,6 +479,90 @@ public class MainActivity extends FragmentActivity {
     }
 
     // Add new onclick methods if new item added in the sliding menu
+
+    // LogIn & Register onClick Methods, intent to AccountActivity
+    public void showLogInFragment(View v) {
+        Intent intent = new Intent(this, AccountActivity.class);
+        // Param 'Status' show the AccountActivity which Fragment should be showed first.
+        intent.putExtra("Status", 0);
+        startActivityForResult(intent, REQUESTCODE);
+    }
+
+    public void showRegisterFragment(View v) {
+        Intent intent = new Intent(this, AccountActivity.class);
+        intent.putExtra("Status", 1);
+        startActivityForResult(intent, REQUESTCODE);
+    }
+
+    public void showLogOutDialog(View v) {
+        preference_editor = user_preference.edit();
+        preference_editor.remove("user");
+        preference_editor.commit();
+        displayToast("LogOut");
+        // Render View back to initial status
+    }
+
+
+    // After LogIn
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == resultCode) {
+            displayToast("Back to MainActivity");
+
+            // Retrieve User Data from Account Activity
+            Bundle user = data.getBundleExtra("user");
+
+
+            // As params to render view
+            username = user.getString("username");
+            email = user.getString("email");
+            photo_lite_url = user.getString("photo_lite");
+
+            // Save user to SharedPreference.
+            preference_editor = user_preference.edit();
+            preference_editor.putString("username", username);
+            preference_editor.putString("email", email);
+            preference_editor.putString("photo_lite_url", photo_lite_url);
+
+            // act as a cookie, avoid user to sign in each time open the app
+            preference_editor.putLong("login_time", System.currentTimeMillis());
+            preference_editor.commit();
+
+            // Success Log In from AccountActivity, then render view
+            renderViewAfterLogIn();
+        }
+
+    }
+
+
+    // 1. After Log In
+    // 2. Open the application
+    public void renderViewAfterLogIn() {
+
+        // LogIn & Register Button Invisible;
+        btn_logIn = (Button) findViewById(R.id.login);
+        btn_register = (Button) findViewById(R.id.register);
+        btn_logout = (Button) findViewById(R.id.logout);
+        btn_logIn.setVisibility(View.INVISIBLE);
+        btn_register.setVisibility(View.INVISIBLE);
+        btn_logout.setVisibility(View.VISIBLE);
+
+        /*
+            SlidingMenu: render Profile
+            Params:
+                username
+                photo_lite
+         */
+
+        ((TextView) findViewById(R.id.username)).setText("Hello," + username);
+
+
+        // The Image should be download from server side
+
+        findViewById(R.id.photo_lite).setBackground(getResources().getDrawable(R.color.primary_light));
+
+    }
 }
 
 
