@@ -10,7 +10,7 @@
         android:layout_height="172dp"
         android:background="@drawable/profile">
 
-        <ImageView
+        <com.lesmtech.colonistswallet.CustomView.RoundedImageView
             android:id="@+id/photo_lite"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -182,27 +182,21 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:layout_gravity="center_vertical">
 
-            <Button
-                android:id="@+id/logout"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:onClick="showLogOutDialog"
-                android:visibility="invisible"
-                android:background="@color/primary_light"
-                android:alpha="0.3"
-                android:text="Logout" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:onClick="showLogOutDialog"
+            android:visibility="invisible"
+            android:background="@color/primary_light"
+            android:alpha="0.3"
+            android:text="Logout" />
 
     </RelativeLayout>
 

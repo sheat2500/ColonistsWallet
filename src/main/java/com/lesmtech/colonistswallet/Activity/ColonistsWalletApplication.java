@@ -11,6 +11,11 @@ public class ColonistsWalletApplication extends Application {
 
     boolean LogIn = false;
 
+    String Userid = null;
+    String Username = null;
+    String Email = null;
+
+
     private static ColonistsWalletApplication singleton;
 
     public static ColonistsWalletApplication getInstance() {
@@ -31,6 +36,30 @@ public class ColonistsWalletApplication extends Application {
 
     public boolean getLogIn() {
         return LogIn;
+    }
+
+    public String getUserid() {
+        return Userid;
+    }
+
+    public void setUserid(String userid) {
+        Userid = userid;
+    }
+
+    public String getUsername() {
+        return Username;
+    }
+
+    public void setUsername(String username) {
+        Username = username;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
     }
 
 }

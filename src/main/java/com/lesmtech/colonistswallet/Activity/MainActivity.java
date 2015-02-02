@@ -1,8 +1,10 @@
 package com.lesmtech.colonistswallet.Activity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -194,8 +196,12 @@ public class MainActivity extends FragmentActivity {
         mSlidingMenu.setMenu(R.layout.slidingmenu);
         mSlidingMenu.showMenu();
 
+        // Buttons in SlidingMenu
+        btn_logIn = (Button) findViewById(R.id.login);
+        btn_register = (Button) findViewById(R.id.register);
+        btn_logout = (Button) findViewById(R.id.logout);
 
-        // Get user preference to validate cookie, expire in 24 hours
+        // Get user preference to validate cookie
         user_preference = getSharedPreferences("user", MODE_PRIVATE);
 
 
@@ -204,8 +210,8 @@ public class MainActivity extends FragmentActivity {
         if (exist) {
             login_time = user_preference.getLong("login_time", 0);
 
-            // 30 second, expire
-            boolean expire = System.currentTimeMillis() - login_time > 30000;
+            // 300 second, expire
+            boolean expire = System.currentTimeMillis() - login_time > 300000;
             if (expire) {
                 // exist but expire
                 preference_editor = user_preference.edit();
@@ -237,7 +243,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void checkSharedPreferences() {
-        sharedPreferences = getSharedPreferences("ColonistPreference", MODE_WORLD_WRITEABLE);
+        sharedPreferences = getSharedPreferences("ColonistPreference", MODE_PRIVATE);
 
         // firstOpen?
         firstOpen = sharedPreferences.getBoolean("FirstOpen", true);
@@ -508,10 +514,30 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void showLogOutDialog(View v) {
-        preference_editor = user_preference.edit();
-        preference_editor.remove("user");
-        preference_editor.commit();
-        displayToast("LogOut");
+
+        AlertDialog.Builder mAlertDialogBuild = new AlertDialog.Builder(this);
+        mAlertDialogBuild.
+                setTitle("Logout").
+                setMessage("Do you want log out?").
+                setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        preference_editor = user_preference.edit();
+                        preference_editor.remove("user");
+                        preference_editor.commit();
+                        displayToast("LogOut");
+                        mSlidingMenu.toggle();
+                        renderViewAfterLogOut();
+                    }
+                }).
+                setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        mAlertDialogBuild.create().show();
+
         // Render View back to initial status
     }
 
@@ -525,7 +551,6 @@ public class MainActivity extends FragmentActivity {
 
             // Retrieve User Data from Account Activity
             Bundle user = data.getBundleExtra("user");
-
 
             // As params to render view
             username = user.getString("username");
@@ -553,9 +578,6 @@ public class MainActivity extends FragmentActivity {
     public void renderViewAfterLogIn() {
 
         // LogIn & Register Button Invisible;
-        btn_logIn = (Button) findViewById(R.id.login);
-        btn_register = (Button) findViewById(R.id.register);
-        btn_logout = (Button) findViewById(R.id.logout);
         btn_logIn.setVisibility(View.INVISIBLE);
         btn_register.setVisibility(View.INVISIBLE);
         btn_logout.setVisibility(View.VISIBLE);
@@ -572,6 +594,16 @@ public class MainActivity extends FragmentActivity {
         // The Image should be download from server side
         new DownloadImagesTask().execute(photo_lite_url);
 
+    }
+
+    // 1. After Log Out
+    // 2. Open th application
+    public void renderViewAfterLogOut() {
+        btn_logIn.setVisibility(View.VISIBLE);
+        btn_register.setVisibility(View.VISIBLE);
+        btn_logout.setVisibility(View.INVISIBLE);
+        ((TextView) findViewById(R.id.username)).setText(null);
+        ((ImageView) findViewById(R.id.photo_lite)).setImageDrawable(getResources().getDrawable(R.drawable.selfie));
     }
 
     public class DownloadImagesTask extends AsyncTask<String, Void, Drawable> {
@@ -612,6 +644,7 @@ public class MainActivity extends FragmentActivity {
             mDialog.dismiss();
         }
     }
+
 }
 
 

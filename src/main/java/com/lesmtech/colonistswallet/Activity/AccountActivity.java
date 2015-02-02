@@ -1,5 +1,6 @@
 package com.lesmtech.colonistswallet.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.lesmtech.colonistswallet.R;
@@ -178,7 +180,7 @@ public class AccountActivity extends FragmentActivity {
                     finish();
                 } else {
                     // Signup failed. Look at the ParseException to see what happened.
-                    displayToast("Fail to Log In");
+                    displayToast(e.getMessage());
                 }
             }
         });
@@ -199,6 +201,12 @@ public class AccountActivity extends FragmentActivity {
         mParseUser.setUsername(mUsername_Register.getText().toString());
         mParseUser.setPassword(mPassword_Register.getText().toString());
         mParseUser.setEmail(mEmail_Register.getText().toString());
+        // !!Upload photo_lite
+
+
+
+
+
         mParseUser.signUpInBackground(new SignUpCallback() {
 
             @Override
@@ -215,10 +223,6 @@ public class AccountActivity extends FragmentActivity {
                             Bundle bundle = new Bundle();
                             bundle.putString("username", parseUser.getUsername());
                             bundle.putString("email", parseUser.getEmail());
-                            // !!Upload photo_lite
-                            
-
-
 
 
                             intent.putExtra("user", bundle);
@@ -228,12 +232,10 @@ public class AccountActivity extends FragmentActivity {
                     });
 
                 } else {
-                    displayToast("Fail to Register");
                     displayToast(e.getMessage());
                 }
             }
         });
-
 
     }
 
